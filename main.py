@@ -62,13 +62,14 @@ def userInput():
                 inferred[premise[i]] = False
                 newKB.premise.append(premise[i])
 
-                printstring = "KB[" + str(len(knowledgeBase) -1 ) + "].premise[" + printstring + str(i) + "]:" \
+                printstring = printstring + "KB[" + str(len(knowledgeBase) -1 ) + "].premise[" + str(i) + "]:" \
                                      + str(premise[i]) + ", "
 
             knowledgeBase.append(newKB)
 
             printstring = printstring + "KB[" + str(len(knowledgeBase) -1) + "].conclusion:" + str(newData[1]) + ", " \
                             "count: " + str(len(premise))
+            print(printstring)
 
 def forwardChain():
     'implimentation of the forward chaining algorithm'
@@ -90,7 +91,7 @@ def forwardChain():
 
         if p == queryInput:
             print("Goal Achieved")
-            printstring = "The query " + str(p) + "is true based on the knowledge."
+            printstring = "The query " + str(p) + " is true based on the knowledge."
             print(printstring)
             print("---- The End -----")
             return True
@@ -124,7 +125,7 @@ def forwardChain():
                     agenda.append(knowledgeBase[i].conclusion)
                 else:
 
-                    printstring = "Count is reduced to" + knowledgeBase[i].count
+                    printstring = "Count is reduced to " + str(knowledgeBase[i].count)
                     print(printstring)
     return False
 
