@@ -43,8 +43,10 @@ def userInput():
 
             newKB.count = len(premise)
 
-            for i in len(premise):
+            for i in range(len(premise)):
                 newKB.premise.append(premise[i])
+
+            knowledgeBase.append(newKB)
 
 
 userInput()
