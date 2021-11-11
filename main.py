@@ -41,8 +41,8 @@ def userInput():
 
             knowledgeBase.append(newKB)
 
-            printstring = "KB[" + str(len(knowledgeBase)) + "].premise[0]:" +str(newData[0]) + ", KB[" \
-                             "" + str(len(knowledgeBase)) +"].conclusion:" + str(newData[1]) + ", " \
+            printstring = "KB[" + str(len(knowledgeBase) -1) + "].premise[0]:" +str(newData[0]) + ", KB[" \
+                             "" + str(len(knowledgeBase) -1) +"].conclusion:" + str(newData[1]) + ", " \
                              "count: 1"
             print(printstring)
 
@@ -57,12 +57,18 @@ def userInput():
 
             newKB.count = len(premise)
 
-            
+            printstring = ""
             for i in range(len(premise)):
                 inferred[premise[i]] = False
                 newKB.premise.append(premise[i])
 
+                printstring = "KB[" + str(len(knowledgeBase) -1 ) + "].premise[" + printstring + str(i) + "]:" \
+                                     + str(premise[i]) + ", "
+
             knowledgeBase.append(newKB)
+
+            printstring = printstring + "KB[" + str(len(knowledgeBase) -1) + "].conclusion:" + str(newData[1]) + ", " \
+                            "count: " + str(len(premise))
 
 def forwardChain():
     'implimentation of the forward chaining algorithm'
@@ -71,10 +77,22 @@ def forwardChain():
 
     queryInput = input()
 
+    print("=============")
+    print("Forward chaining algorithm starts")
+    print("=============")
+
+
     while len(agenda) != 0:
         p = agenda.pop(0)
 
+        printstring = "***** Current agenda:" + str(p) +" *****"
+        print(printstring)
+
         if p == queryInput:
+            print("Goal Achieved")
+            printstring = "The query " + str(p) + "is true based on the knowledge."
+            print(printstring)
+            print("---- The End -----")
             return True
 
         if not inferred[p]:
@@ -82,13 +100,32 @@ def forwardChain():
 
         for i in range(len(knowledgeBase)):
 
+
             if knowledgeBase[i].premise.count(p) > 0:
+
+                if len(knowledgeBase[i].premise) > 1:
+                    printstring = str(knowledgeBase[i].premise[0]) + "^" + str(knowledgeBase[i].premise[1]) + "=>" \
+                                    "" + str(knowledgeBase[i].conclusion) + ", count:" +str(knowledgeBase[i].count)
+                    print(printstring)
+                    printstring = "Premise " + str(p) + " matched agenda"
+                    print(printstring)
+                else:
+                    printstring = str(knowledgeBase[i].premise[0]) +  "=>" \
+                                "" + str(knowledgeBase[i].conclusion) + ", count:" + str(knowledgeBase[i].count)
+                    print(printstring)
+                    printstring = "Premise " + str(p) + " matched agenda"
+                    print(printstring)
 
                 knowledgeBase[i].count -= 1
 
                 if knowledgeBase[i].count == 0:
-                    agenda.append(knowledgeBase[i].conclusion)
 
+                    printstring = "Count is reduced to 0 ==> Agenda " + str(knowledgeBase[i].conclusion) + " is created"
+                    agenda.append(knowledgeBase[i].conclusion)
+                else:
+
+                    printstring = "Count is reduced to" + knowledgeBase[i].count
+                    print(printstring)
     return False
 
 
